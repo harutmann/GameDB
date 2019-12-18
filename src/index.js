@@ -48,7 +48,7 @@ const App = () => {
 		useEffect(() => {
 			const Card = () => {
 					return (
-						<div className="card query-card" style={{ background: `url(${queryEl.short_screenshots[0].image}) no-repeat`, backgroundSize:"cover", width: "100%", height: "300px"}}>
+						<div className="card query-card" style={{ background: `url(${queryEl.short_screenshots[1].image}) no-repeat`, backgroundSize:"cover", width: "100%", height: "300px"}}>
 
 								<h2>{queryEl.name}</h2>
 								<p className="genres">Rating: {queryEl.rating}</p>
@@ -66,6 +66,8 @@ const App = () => {
 					document.getElementById('queryCard'))
 				}
 }, [queryEl])
+
+
 
   return (
 		<div className="container">
@@ -93,7 +95,7 @@ const App = () => {
 				</h1>
 				<div className="games row">
 					{games.map( (game, index) => (
-						<Game key={`${index}-${game.name}`} game={game} />
+						<Game key={`${index}-${game.name}`} game={game} onTitleClick={(el)=>setQuery(el)}/>
 					) )}
 				</div>
 				<h2>api source
