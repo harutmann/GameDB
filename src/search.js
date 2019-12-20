@@ -6,11 +6,14 @@ const Search = (props) => {
 
   const inputChange = (e) => {
     setSearchValue(e.target.value);
+      props.search(searchValue);
   }
 
   const submitFunction = (e) => {
     e.preventDefault();
-    props.search(searchValue);
+    if(searchValue!==''){
+      props.onSubmit(searchValue);
+    } else (alert('enter game name'))
     setSearchValue('');
   }
 

@@ -12,7 +12,7 @@
 }
 
 .query-card{
-  min-height: 500px;
+  min-height: 700px;
 }
 
 .card h2 {
@@ -31,8 +31,13 @@
 p {
   color: white;
 }
+
 .genres {
   margin: 0;
   background-color: rgba(0,0,0,0.5);
   padding-left: 10px;
+}
+
+#description {
+  cursor: pointer;
 }

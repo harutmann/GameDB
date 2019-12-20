@@ -10,7 +10,7 @@ const App = () => {
 	const[games, setGames] = useState([]);
 	const[queryGameList, setList] = useState([]);
 	const[queryEl, setQuery] = useState({});
-
+  const[cardEl, setCard] = useState({});
 
 	useEffect(() => {
 		fetch(GAMES_RATING_URL, {
@@ -46,15 +46,44 @@ const App = () => {
 		}
 
 		useEffect(() => {
+			console.log(cardEl)
+			fetch(`https://api.rawg.io/api/games/${queryEl.id}`, {
+				"method": "GET",
+				"headers": {
+					'Content-Type': 'application/json'
+				},
+					"mode": "cors"
+			})
+			.then(response => response.json() )
+			.then(data => {
+				setCard(data)
+			});
+
+}, [queryEl])
+
+const oPDescription = (description) => {
+	let elem = document.getElementById('description')
+	elem.innerHTML+=description
+}
+
+
+
+		useEffect(() => {
+			console.log(cardEl.description)
 			const Card = () => {
 					return (
-						<div className="card query-card" style={{ background: `url(${queryEl.short_screenshots[1].image}) no-repeat`, backgroundSize:"cover", width: "100%", height: "300px"}}>
+						<div className="card query-card" style={{ background: `url(${cardEl.background_image}) no-repeat`, backgroundSize:"cover", width: "100%", height: "300px"}}>
 
-								<h2>{queryEl.name}</h2>
-								<p className="genres">Rating: {queryEl.rating}</p>
-								<p className="genres ">Genres: {queryEl.genres.map((el,index)=> queryEl.genres.length === index+1 ? el.name : el.name+', ')}</p>
-								<p className="genres ">Platform: {queryEl.platforms.map((el,index)=> queryEl.platforms.length === index+1 ? el.platform.name : el.platform.name+', ')}</p>
-
+								<h2 className="card-header">{cardEl.name}</h2>
+								<div className="card-body">
+									<p className="">Rating: {cardEl.rating}</p>
+									<p className="">Genres: {cardEl.genres.map((el,index)=> cardEl.genres.length === index+1 ? el.name : el.name+', ')}</p>
+									<p className="">Platform: {cardEl.platforms.map((el,index)=> cardEl.platforms.length === index+1 ? el.platform.name : el.platform.name+', ')}</p>
+									<p className="">Developers: {cardEl.developers[0].name}</p>
+								</div>
+								<div id="description"  className="card-footer">
+								  <h3 id="description" onClick={()=>oPDescription(cardEl.description)}>Description 💬</h3>
+								</div>
 						</div>
 					)
 				}
@@ -65,16 +94,22 @@ const App = () => {
 					ReactDOM.render(<Card/>,
 					document.getElementById('queryCard'))
 				}
-}, [queryEl])
+}, [cardEl])
 
 
+const onSubmit = (e) => {
+	if(queryGameList[0]!==undefined){
+	console.log('-----------' + queryGameList[0].name)
+	setQuery(queryGameList[0]);
+	setList([]);} else {alert("enter correct title name")}
+}
 
   return (
 		<div className="container">
 
 			<div className="row flex-column ">
 				<h1>GameDB</h1>
-	    	<Search search={search} />
+	    	<Search search={search} onSubmit={(el)=>onSubmit()}/>
 
 				<ul className="list-group">
 				{
