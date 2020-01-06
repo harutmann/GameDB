@@ -11,7 +11,7 @@ const Game = (props) => {
   }
 
   return (
-    <div className="card col-md-6" style={{ background: `url(${game.background_image}) no-repeat`, backgroundSize:"cover", width: "100%", height: "300px"}}>
+    <div className="card card-min col-md-6" style={{ background: `url(${game.background_image}) no-repeat`, backgroundSize:"cover", width: "100%", height: "300px"}}>
 
         <h2 onClick={()=>onGchange(game)}>{game.name}</h2>
         <p className="card-body">Rating: {game.rating}</p>

@@ -26,7 +26,7 @@ module.exports = (env = {}) => {
 
     if (isProd) {
       plugins.push(new MiniCssExtractPlugin({
-          filename: 'main-[hash:8].css'
+          filename: 'main.css'
         })
       );
     }
@@ -38,7 +38,7 @@ module.exports = (env = {}) => {
       mode: isProd ? 'production': isDev && 'development',
 
       output: {
-        filename: isProd ? 'main-[hash:8].js' : undefined
+        filename: isProd ? 'main.js' : undefined
       },
 
       module: {
