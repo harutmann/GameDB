@@ -61,9 +61,14 @@ const App = () => {
 
 }, [queryEl])
 
-const oPDescription = (description) => {
-	let elem = document.getElementById('description')
-	elem.innerHTML+=description
+	const oPDescription = (description) => {
+		let content = document.getElementById('descriptionContent');
+
+		if(content.style.display=='none') {
+				content.style.display='block';
+				content.innerHTML = description
+
+			}else{content.style.display='none';}
 }
 
 
@@ -77,10 +82,11 @@ const oPDescription = (description) => {
 				  elem = <span className="btn like" id="add" onClick={()=>addFavorites(cardEl)}>💜  add to favorites</span>;
 				}
 
+
 					return (
 						<div className="card query-card" id="query-card" style={{ background: `url(${cardEl.background_image}) no-repeat`, backgroundSize:"cover", width: "100%", height: "300px"}}>
 
-								<h2 className="card-header">{cardEl.name}</h2>
+								<h2 className="card-header" id="top" >{cardEl.name}</h2>
 								{elem}
 								<div className="card-body query-body">
 									<p className="">Rating: {cardEl.rating}</p>
@@ -90,6 +96,7 @@ const oPDescription = (description) => {
 								</div>
 								<div id="description"  className="card-footer">
 								  <h3 id="description" onClick={()=>oPDescription(cardEl.description)}>Description 💬</h3>
+									<div id="descriptionContent" style={{display:'none'}}></div>
 								</div>
 						</div>
 					)
@@ -101,6 +108,7 @@ const oPDescription = (description) => {
 					ReactDOM.render(<Card/>,
 					document.getElementById('queryCard'))
 				}
+
 }, [cardEl, toggle])
 
 
@@ -136,22 +144,30 @@ const opFavorites = (e) => {
 		}
 	}
 
+	const handleHover = (el) => {
+		let backContainer = document.getElementById('hoverContent');
+		backContainer.style.backgroundImage = `url(${el.background_image})`;
+	}
+
 	const Favorite = () => {
 		return (
-			<ul className="list-group ">
-			{
-				localArr.map((el,index) => {
-					return <li
-						className="favorites-list"
-						key={`${el.id}`}
-						id={`${el.id}`}
-						>
-						<span className="favTitle" onClick={()=>setQuery(el)}>{el.name}</span>
-						<span className="favRemove" onClick={()=>removeFromList(el)}>❌</span>
-						</li>
-				})
-			}
-			</ul>
+			<div className="card favoriteCard" id="hoverContent" style={{ background: `no-repeat`, backgroundSize:"cover", width: "100%", height: "300px", overflow: 'auto'}}>
+					<ul className="list-group ">
+					{
+						localArr.map((el,index) => {
+							return <li
+							  onMouseEnter={()=>handleHover(el)}
+								className="favorites-list"
+								key={`${el.id}`}
+								id={`${el.id}`}
+								>
+								<span className="favTitle" onClick={()=>setQuery(el)}>{el.name}</span>
+								<span className="favRemove" onClick={()=>removeFromList(el)}>❌</span>
+								</li>
+						})
+					}
+					</ul>
+			</div>
 		)}
 	ReactDOM.render(<Favorite/>,
 	document.getElementById('queryCard'))
@@ -164,7 +180,7 @@ const opFavorites = (e) => {
 			<div className="row flex-column ">
 				<h1 className="pageTitle">GameDB</h1>
 	    	<Search search={search} onSubmit={(el)=>onSubmit()}/>
-				<span className="favorites" onClick={()=>opFavorites()}>My favorites 📜</span>
+				<span className="favorites"  onClick={()=>opFavorites()}>My favorites 📜</span>
 				<ul className="list-group">
 				{
 					queryGameList.map(

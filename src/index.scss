@@ -7,13 +7,11 @@
   width: 20%;
 }
 
-
-
 .card {
   padding: 0;
 }
 
-.query-card{
+.query-card, .favoriteCard {
   min-height: 700px;
 }
 
@@ -52,6 +50,7 @@ p {
 #description {
   cursor: pointer;
   background-color: black;
+  overflow: auto;
 }
 
 .card-min {
@@ -95,11 +94,19 @@ p {
 
 .favorites-list{
   list-style: none;
-  margin-top: 10px;
   padding: 10px;
-  background-color: black;
-  color:white;
   min-width: 200px;
+  background-color: white;
+  border-top: 1px solid rgba(143, 163, 194, 0.5);
+    &:hover{
+
+      background-color: black;
+      color: white
+    }
+}
+
+.list-group {
+  width: 30%
 }
 
 .favTitle {
@@ -112,4 +119,20 @@ p {
   display: inline-block;
   margin-left: 10px;
   cursor: pointer;
+}
+
+.titleHref{
+  color: white;
+  &:hover{
+    color: #aeb9eb;
+    text-decoration: none;
+  }
+}
+
+.descriptionContent{
+  display: none;
+}
+
+.hoverContent {
+  background: no-repeat;
 }
