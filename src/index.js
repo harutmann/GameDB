@@ -63,7 +63,6 @@ const App = () => {
 
 	const oPDescription = (description) => {
 		let content = document.getElementById('descriptionContent');
-
 		if(content.style.display=='none') {
 				content.style.display='block';
 				content.innerHTML = description
@@ -71,15 +70,24 @@ const App = () => {
 			}else{content.style.display='none';}
 }
 
+const opPic = (pic) => {
+	let popup = document.getElementById('popup-img');
+	popup.style.backgroundImage = `url(${pic})`
+	popup.style.display = "block"
+}
+
+const popupClose = () => {
+	let popup = document.getElementById('popup-img');
+	popup.style.display = "none";}
 
 		useEffect(() => {
 			const Card = () => {
 
 				let elem;
 				if (localStorage.getItem(`id- ${cardEl.id}`)){
-					elem = <span className="btn like" id="delete" onClick={()=>removeFavorites(cardEl)}>❌ remove from favorites</span>;
+					elem = <span className="btn like" id="delete" onClick={()=>removeFavorites(queryEl)}>❌ remove from favorites</span>;
 				} else {
-				  elem = <span className="btn like" id="add" onClick={()=>addFavorites(cardEl)}>💜  add to favorites</span>;
+				  elem = <span className="btn like" id="add" onClick={()=>addFavorites(queryEl)}>💜  add to favorites</span>;
 				}
 
 
@@ -93,6 +101,25 @@ const App = () => {
 									<p className="">Genres: {cardEl.genres.map((el,index)=> cardEl.genres.length === index+1 ? el.name : el.name+', ')}</p>
 									<p className="">Platform: {cardEl.platforms.map((el,index)=> cardEl.platforms.length === index+1 ? el.platform.name : el.platform.name+', ')}</p>
 									<p className="">Developers: {cardEl.developers[0].name}</p>
+
+								</div>
+								<div className="row card-body">
+										<div className="col-sm-3 gallery-min-pic"
+										onClick={()=>opPic(queryEl.short_screenshots[1].image)}
+										style={{ background: `url(${queryEl.short_screenshots[1].image}) no-repeat`, backgroundSize:"cover", width: "100%"}}></div>
+										<div className="col-sm-3 gallery-min-pic"
+										onClick={()=>opPic(queryEl.short_screenshots[2].image)}
+										style={{ background: `url(${queryEl.short_screenshots[2].image}) no-repeat`, backgroundSize:"cover", width: "100%"}}></div>
+										<div className="col-sm-3 gallery-min-pic"
+										onClick={()=>opPic(queryEl.short_screenshots[3].image)}
+										style={{ background: `url(${queryEl.short_screenshots[3].image}) no-repeat`, backgroundSize:"cover", width: "100%"}}></div>
+										<div className="col-sm-3 gallery-min-pic"
+										onClick={()=>opPic(queryEl.short_screenshots[4].image)}
+										style={{ background: `url(${queryEl.short_screenshots[4].image}) no-repeat`, backgroundSize:"cover", width: "100%"}}></div>
+										<div className="col-sm-3 gallery-min-pic"
+										onClick={()=>opPic(queryEl.short_screenshots[5].image)}
+										style={{ background: `url(${queryEl.short_screenshots[5].image}) no-repeat`, backgroundSize:"cover", width: "100%"}}></div>
+
 								</div>
 								<div id="description"  className="card-footer">
 								  <h3 id="description" onClick={()=>oPDescription(cardEl.description)}>Description 💬</h3>
@@ -176,11 +203,11 @@ const opFavorites = (e) => {
 
   return (
 		<div className="container">
-
+			<div className="container" onClick={()=>popupClose()} id="popup-img" style={{ background: `no-repeat`, backgroundSize:"cover", width: "100%", height: "300px", overflow: 'auto'}}></div>
 			<div className="row flex-column ">
 				<h1 className="pageTitle">GameDB</h1>
 	    	<Search search={search} onSubmit={(el)=>onSubmit()}/>
-				<span className="favorites"  onClick={()=>opFavorites()}>My favorites 📜</span>
+				<span className="favorites"  onClick={()=>opFavorites()}>Favorites</span>
 				<ul className="list-group">
 				{
 					queryGameList.map(
