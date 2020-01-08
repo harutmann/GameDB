@@ -113,12 +113,6 @@ const popupClose = () => {
 										<div className="col-sm-3 gallery-min-pic"
 										onClick={()=>opPic(queryEl.short_screenshots[3].image)}
 										style={{ background: `url(${queryEl.short_screenshots[3].image}) no-repeat`, backgroundSize:"cover", width: "100%"}}></div>
-										<div className="col-sm-3 gallery-min-pic"
-										onClick={()=>opPic(queryEl.short_screenshots[4].image)}
-										style={{ background: `url(${queryEl.short_screenshots[4].image}) no-repeat`, backgroundSize:"cover", width: "100%"}}></div>
-										<div className="col-sm-3 gallery-min-pic"
-										onClick={()=>opPic(queryEl.short_screenshots[5].image)}
-										style={{ background: `url(${queryEl.short_screenshots[5].image}) no-repeat`, backgroundSize:"cover", width: "100%"}}></div>
 
 								</div>
 								<div id="description"  className="card-footer">
@@ -178,7 +172,7 @@ const opFavorites = (e) => {
 
 	const Favorite = () => {
 		return (
-			<div className="card favoriteCard" id="hoverContent" style={{ background: `no-repeat`, backgroundSize:"cover", width: "100%", height: "300px", overflow: 'auto'}}>
+			<div className="favoriteCard" id="hoverContent" style={{ background: `no-repeat`, backgroundSize:"cover", width: "100%",  overflow: 'auto'}}>
 					<ul className="list-group ">
 					{
 						localArr.map((el,index) => {
