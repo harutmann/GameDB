@@ -4,6 +4,7 @@ import css from './index.scss';
 import Search from './search';
 import Game from './game';
 
+
 const GAMES_RATING_URL = "https://api.rawg.io/api/games?dates=2019-01-01,2019-12-31&ordering=-rating";
 
 const App = () => {
@@ -103,18 +104,22 @@ const popupClose = () => {
 									<p className="">Developers: {cardEl.developers[0].name}</p>
 
 								</div>
-								<div className="row card-body">
-										<div className="col-sm-3 gallery-min-pic"
-										onClick={()=>opPic(queryEl.short_screenshots[1].image)}
-										style={{ background: `url(${queryEl.short_screenshots[1].image}) no-repeat`, backgroundSize:"cover", width: "100%"}}></div>
-										<div className="col-sm-3 gallery-min-pic"
-										onClick={()=>opPic(queryEl.short_screenshots[2].image)}
-										style={{ background: `url(${queryEl.short_screenshots[2].image}) no-repeat`, backgroundSize:"cover", width: "100%"}}></div>
-										<div className="col-sm-3 gallery-min-pic"
-										onClick={()=>opPic(queryEl.short_screenshots[3].image)}
-										style={{ background: `url(${queryEl.short_screenshots[3].image}) no-repeat`, backgroundSize:"cover", width: "100%"}}></div>
-
-								</div>
+								<div >
+									<ul className="row card-body gallery-list">
+										{
+										queryEl.short_screenshots.map((el, index) => {
+											if(el.id!==(-1)){
+													return <li
+														key={`${el.id}`}
+														className="col-sm-3 gallery-min-pic"
+														onClick={()=>opPic(el.image)}
+														style={{ background: `url(${el.image}) no-repeat`,
+														backgroundSize:"cover", width: "100%"}}
+													></li>}
+												})
+											}
+									</ul>
+									</div>
 								<div id="description"  className="card-footer">
 								  <h3 id="description" onClick={()=>oPDescription(cardEl.description)}>Description 💬</h3>
 									<div id="descriptionContent" style={{display:'none'}}></div>
