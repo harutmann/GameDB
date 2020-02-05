@@ -4,29 +4,46 @@ import css from './index.scss';
 import Search from './search';
 import Game from './game';
 
-
-const GAMES_RATING_URL = "https://api.rawg.io/api/games?dates=2019-01-01,2019-12-31&ordering=-rating";
-
 const App = () => {
 	const[games, setGames] = useState([]);
 	const[queryGameList, setList] = useState([]);
 	const[queryEl, setQuery] = useState({});
   const[cardEl, setCard] = useState({});
 	const[toggle, setToggle] = useState('');
+	const[url, setUrl] = useState("https://api.rawg.io/api/games?dates=2019-01-01,2019-12-31&ordering=-rating");
 
-	useEffect(() => {
-		fetch(GAMES_RATING_URL, {
+	useEffect((games) => {
+		fetch(url, {
 			"method": "GET",
 			"headers": {
 				'Content-Type': 'application/json'
 			},
 				"mode": "cors"
 		})
-		.then(response => response.json() )
+		.then(response => response.json())
 		.then(data => {
 			setGames(data.results);
-		});
-	}, []);
+			setUrl(data.next);
+			});
+		}, []);
+
+		const onLoadGames = () => {
+			fetch(url, {
+				"method": "GET",
+				"headers": {
+					'Content-Type': 'application/json'
+				},
+					"mode": "cors"
+			})
+			.then(response => response.json())
+			.then(data => {
+				let arr = games;
+				arr = arr.concat(data.results);
+				setGames(arr);
+				setUrl(data.next);
+				});
+		};
+
 
 		const search = searchValue => {
 			fetch(`https://api.rawg.io/api/games?search=${searchValue}`, {
@@ -77,6 +94,7 @@ const opPic = (pic) => {
 	popup.style.display = "block"
 }
 
+
 const popupClose = () => {
 	let popup = document.getElementById('popup-img');
 	popup.style.display = "none";}
@@ -92,6 +110,15 @@ const popupClose = () => {
 				}
 
 
+
+						let devName;
+						 if(cardEl.developers[0]===undefined){
+							 devName = <p className="">Developers: - </p>
+							}else{
+							 devName = <p className="">Developers: {cardEl.developers[0].name}</p>
+							}
+
+
 					return (
 						<div className="card query-card" id="query-card" style={{ background: `url(${cardEl.background_image}) no-repeat`, backgroundSize:"cover", width: "100%", height: "300px"}}>
 
@@ -101,7 +128,7 @@ const popupClose = () => {
 									<p className="">Rating: {cardEl.rating}</p>
 									<p className="">Genres: {cardEl.genres.map((el,index)=> cardEl.genres.length === index+1 ? el.name : el.name+', ')}</p>
 									<p className="">Platform: {cardEl.platforms.map((el,index)=> cardEl.platforms.length === index+1 ? el.platform.name : el.platform.name+', ')}</p>
-									<p className="">Developers: {cardEl.developers[0].name}</p>
+									{devName}
 
 								</div>
 								<div >
@@ -229,13 +256,13 @@ const opFavorites = (e) => {
 						<Game key={`${index}-${game.name}`} game={game} onTitleClick={(el)=>setQuery(el)}/>
 					) )}
 				</div>
+				<button className="btn" onClick={()=>onLoadGames()}>Load more...</button>
 				<h2>api source
 				<a href="https://rawg.io"> rawg.io</a></h2>
 			</div>
 		</div>
   )
 };
-
 
 ReactDOM.render(<App/>,
 document.getElementById('root'));
